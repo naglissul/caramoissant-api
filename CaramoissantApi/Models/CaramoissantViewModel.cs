@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CaramoissantApi.Controllers
 {
-    public class Croissant
+    public class CaramoissantViewModel
     {
         public int Id { set; get; }
-        public string? Address { set; get; }
+        public string? Location { set; get; }
         public DateTime? Date { set; get; } = DateTime.Now;
 
     }
