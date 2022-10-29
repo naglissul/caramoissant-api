@@ -29,7 +29,7 @@ namespace CaramoissantApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Caramoissant>>> GetAllCaramoissants()
         {
-            return Ok(new List<Caramoissant>());
+            return Ok(await _caramoissantService.GetAll());
         }
 
         [HttpPost]
@@ -45,13 +45,22 @@ namespace CaramoissantApi.Controllers
         [HttpPut]
         public async Task<ActionResult<Caramoissant>> UpdateCaramoissant(Caramoissant caramoissant)
         {
-            return Ok(caramoissant);
+            var caramoissantToUpdate = await _caramoissantService.Get(caramoissant.Id);
+            if (caramoissantToUpdate == null)
+            {
+                return NotFound();
+            }
+            //_mapper.Map(caramoissant, caramoissantToUpdate);
+            caramoissantToUpdate.Location = caramoissant.Location;
+            caramoissantToUpdate.Date = caramoissant.Date;
+            await _caramoissantService.SaveAll();
+            return Ok(caramoissantToUpdate);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Caramoissant>> DeleteCaramoissant(int id)
         {
-            return Ok(new Caramoissant());
+            return Ok(await _caramoissantService.Delete(id));
         }
     }
 }

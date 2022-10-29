@@ -23,14 +23,14 @@ namespace CaramoissantApi.Services
             await _context.Caramoissants.AddAsync(caramoissant);
         }
 
-        public async Task<CaramoissantViewModel> Get(int id)
+        public async Task<Caramoissant> Get(int id)
         {
             var caramoissant = await _context.Caramoissants.FindAsync(id);
             if (caramoissant == null)
             {
                 throw new Exception("Caramoissant not found");
             }
-            return _mapper.Map<CaramoissantViewModel>(caramoissant);
+            return caramoissant;
         }
 
         public async Task<List<Caramoissant>> GetAll()
@@ -38,7 +38,7 @@ namespace CaramoissantApi.Services
             return await _context.Caramoissants.ToListAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task<Caramoissant> Delete(int id)
         {
             var caramoissant = await _context.Caramoissants.FindAsync(id);
             if (caramoissant == null)
@@ -48,6 +48,7 @@ namespace CaramoissantApi.Services
             _context.Caramoissants.Remove(caramoissant);
 
             await _context.SaveChangesAsync();
+            return caramoissant;
         }
 
         public async Task SaveAll()
