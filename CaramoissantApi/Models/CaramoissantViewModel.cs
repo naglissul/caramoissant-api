@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CaramoissantApi.Controllers
+namespace CaramoissantApi.Models         
 {
     public class CaramoissantViewModel
     {

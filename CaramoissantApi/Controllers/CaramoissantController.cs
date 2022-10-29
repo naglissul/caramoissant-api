@@ -1,3 +1,6 @@
+using AutoMapper;
+using CaramoissantApi.Infrastructure;
+using CaramoissantApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaramoissantApi.Controllers
@@ -7,17 +10,20 @@ namespace CaramoissantApi.Controllers
     public class CaramoissantController : ControllerBase
     {
 
-        private readonly ILogger<CaramoissantController> _logger;
+        private readonly ICaramoissantService _caramoissantService;
+        private readonly IMapper _mapper;
 
-        public CaramoissantController(ILogger<CaramoissantController> logger)
+        public CaramoissantController(ICaramoissantService caramoissantService, IMapper mapper)
         {
-            _logger = logger;
+            _caramoissantService = caramoissantService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Caramoissant>> GetCaramoissant(int id)
         {
-            return Ok(new Caramoissant());
+            var caramoissant = await _caramoissantService.Get(id);
+            return Ok(caramoissant);
         }
 
         [HttpGet]
@@ -27,9 +33,13 @@ namespace CaramoissantApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Caramoissant>> CreateCaramoissant(Caramoissant caramoissant)
+        public async Task<ActionResult<Caramoissant>> CreateCaramoissant(CaramoissantPostModel caramoissant)
         {
-            return Ok(caramoissant);
+            var createdCaramoissant = _mapper.Map<Caramoissant>(caramoissant);
+            await _caramoissantService.Add(createdCaramoissant);
+            await _caramoissantService.SaveAll();
+
+            return Ok(_mapper.Map<CaramoissantViewModel>(createdCaramoissant));
         }
 
         [HttpPut]
