@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-app.Urls.Add("https://192.46.233.110:5024");
+app.Urls.Add("https://85.90.244.177:5024");
 app.Urls.Add("http://localhost:5024");
 
 // Configure the HTTP request pipeline.
